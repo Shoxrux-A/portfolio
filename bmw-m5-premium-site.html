@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMW M5 F90 Competition — Купить в Москве | Официальный дилер</title>
+    <meta name="description" content="BMW M5 F90 Competition 625 л.с. ⚡ Цена от 12 990 000 ₽ | Кредит 0% | Трейд-ин | Тест-драйв за 5 минут">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #000000;
+            --dark-gray: #0d0d0d;
+            --gold: #d4af37;
+            --electric-blue: #00d4ff;
+            --white: #ffffff;
+            --gray: #888888;
+            --success: #00ff88;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Syne', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Cursor */
+        body {
+            cursor: none;
+        }
+
+        #cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease;
+            mix-blend-mode: difference;
+        }
+
+        #cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.3s ease;
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loader {
+            width: 100px;
+            height: 100px;
+            border: 3px solid rgba(212, 175, 55, 0.1);
+            border-top: 3px solid var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loader-text {
+            margin-top: 30px;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            color: var(--gold);
+            letter-spacing: 4px;
+        }
+
+        /* Progress Bar */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--electric-blue));
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 30px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 20px 60px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, var(--gold), var(--electric-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav {
+            display: flex;
+            gap: 50px;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 2px;
+            position: relative;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover {
+            color: var(--gold);
+        }
+
+        nav a:hover::before {
+            width: 100%;
+        }
+
+        .header-cta {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .phone {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-family: 'Syne', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), #f4d03f);
+            color: var(--black);
+            border-radius: 50px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-bg video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 212, 255, 0.1));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 1400px;
+            padding: 0 60px;
+        }
+
+        .hero-label {
+            display: inline-block;
+            padding: 10px 25px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold);
+            border-radius: 50px;
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease 0.3s both;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 120px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 30px;
+            letter-spacing: -2px;
+            animation: fadeInUp 1s ease 0.5s both;
+            background: linear-gradient(135deg, var(--white), var(--gold), var(--electric-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--gray);
+            margin-bottom: 50px;
+            letter-spacing: 2px;
+            animation: fadeInUp 1s ease 0.7s both;
+        }
+
+        .hero-price {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease 0.9s both;
+        }
+
+        .hero-price span {
+            font-size: 20px;
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 80px;
+            animation: fadeInUp 1s ease 1.1s both;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--electric-blue);
+            border-radius: 50px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--electric-blue);
+            color: var(--black);
+            transform: translateY(-3px);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.4);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease 1.3s both;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 30px;
+            background: rgba(13, 13, 13, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.2);
+        }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .scroll-indicator span {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: var(--gray);
+            text-transform: uppercase;
+        }
+
+        .scroll-line {
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(180deg, var(--gold), transparent);
+        }
+
+        /* Features 3D */
+        .features-3d {
+            padding: 150px 60px;
+            position: relative;
+            background: linear-gradient(180deg, var(--black), var(--dark-gray));
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 100px;
+        }
+
+        .section-label {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold);
+            border-radius: 50px;
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+
+        .section-title {
+            font-size: 72px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--white), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-description {
+            font-size: 20px;
+            color: var(--gray);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(13, 13, 13, 0.8), rgba(0, 0, 0, 0.9));
+            padding: 60px 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-20px) rotateX(5deg);
+            border-color: var(--gold);
+            box-shadow: 0 30px 80px rgba(212, 175, 55, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 64px;
+            margin-bottom: 30px;
+            display: inline-block;
+            transition: transform 0.5s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotateY(360deg);
+        }
+
+        .feature-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--gold);
+        }
+
+        .feature-description {
+            font-size: 16px;
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        /* Specs Comparison */
+        .specs-section {
+            padding: 150px 60px;
+            background: var(--dark-gray);
+        }
+
+        .specs-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .specs-tabs {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        .tab {
+            padding: 15px 40px;
+            background: transparent;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            color: var(--gray);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .tab.active,
+        .tab:hover {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
+        }
+
+        .specs-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .spec-item {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            border-radius: 15px;
+            border-left: 4px solid var(--electric-blue);
+            transition: all 0.3s ease;
+        }
+
+        .spec-item:hover {
+            background: rgba(0, 0, 0, 0.8);
+            border-left-color: var(--gold);
+            transform: translateX(10px);
+        }
+
+        .spec-name {
+            font-size: 18px;
+            color: var(--gray);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .spec-value {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--gold);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .spec-detail {
+            font-size: 16px;
+            color: var(--gray);
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        /* Gallery Slider */
+        .gallery-section {
+            padding: 150px 0;
+            background: var(--black);
+            overflow: hidden;
+        }
+
+        .gallery-slider {
+            position: relative;
+            width: 100%;
+        }
+
+        .gallery-track {
+            display: flex;
+            gap: 30px;
+            animation: scroll 30s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .gallery-track:hover {
+            animation-play-state: paused;
+        }
+
+        .gallery-item {
+            min-width: 600px;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.9));
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 5px;
+        }
+
+        .gallery-description {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* Benefits Animated */
+        .benefits-section {
+            padding: 150px 60px;
+            background: linear-gradient(180deg, var(--black), var(--dark-gray));
+        }
+
+        .benefits-grid {
+            max-width: 1400px;
+            margin: 80px auto 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            padding: 50px;
+            background: rgba(13, 13, 13, 0.6);
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            border-color: var(--gold);
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.2);
+        }
+
+        .benefit-number {
+            font-size: 72px;
+            font-weight: 800;
+            color: rgba(212, 175, 55, 0.2);
+            font-family: 'Space Mono', monospace;
+            line-height: 1;
+        }
+
+        .benefit-content h3 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        .benefit-content p {
+            font-size: 16px;
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        /* Configurator */
+        .configurator-section {
+            padding: 150px 60px;
+            background: var(--dark-gray);
+        }
+
+        .configurator-container {
+            max-width: 1400px;
+            margin: 80px auto 0;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 80px;
+        }
+
+        .config-preview {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+        }
+
+        .config-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .config-options {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .config-group h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .color-options,
+        .package-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .color-option {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .color-option.active {
+            border-color: var(--gold);
+            box-shadow: 0 0 30px var(--gold);
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .package-option {
+            flex: 1;
+            min-width: 200px;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .package-option.active,
+        .package-option:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--gold);
+        }
+
+        .package-option h4 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 10px;
+        }
+
+        .package-option p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .package-option .price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-top: 15px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 150px 60px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0, 212, 255, 0.1));
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.2), transparent 70%);
+            transform: translate(-50%, -50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 64px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--white), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-content p {
+            font-size: 24px;
+            color: var(--gray);
+            margin-bottom: 50px;
+        }
+
+        .cta-benefits {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        .cta-benefit {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            color: var(--white);
+        }
+
+        .cta-benefit::before {
+            content: '✓';
+            width: 30px;
+            height: 30px;
+            background: var(--success);
+            color: var(--black);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        /* Form Modern */
+        .form-section {
+            padding: 150px 60px;
+            background: var(--dark-gray);
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 80px auto 0;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 80px;
+            border-radius: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 18px 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            color: var(--white);
+            font-size: 16px;
+            font-family: 'Syne', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 20px;
+            font-size: 16px;
+        }
+
+        .form-privacy {
+            font-size: 12px;
+            color: var(--gray);
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-privacy a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--black);
+            padding: 100px 60px 40px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 80px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand h3 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--gold), var(--electric-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-brand p {
+            font-size: 16px;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--gold);
+            color: var(--black);
+            transform: translateY(-5px);
+        }
+
+        .footer-section h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--gold);
+        }
+
+        .footer-section a {
+            display: block;
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            color: var(--white);
+            text-decoration: none;
+            z-index: 999;
+            box-shadow: 0 10px 40px rgba(37, 211, 102, 0.5);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero h1 { font-size: 80px; }
+            .hero-stats { grid-template-columns: repeat(2, 1fr); }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .configurator-container { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            #cursor, #cursor-follower { display: none; }
+            header { padding: 20px 30px; }
+            nav { display: none; }
+            .hero h1 { font-size: 48px; }
+            .hero-subtitle { font-size: 18px; }
+            .hero-stats { grid-template-columns: 1fr; gap: 20px; }
+            .section-title { font-size: 42px; }
+            .features-grid,
+            .specs-content,
+            .benefits-grid,
+            .footer-container { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+            .gallery-item { min-width: 400px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader"></div>
+        <div class="loader-text">ЗАГРУЗКА...</div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="logo">BMW M5</div>
+        <nav>
+            <a href="#features">Характеристики</a>
+            <a href="#specs">Комплектации</a>
+            <a href="#gallery">Галерея</a>
+            <a href="#benefits">Преимущества</a>
+            <a href="#contact">Контакты</a>
+        </nav>
+        <div class="header-cta">
+            <a href="tel:+74951234567" class="phone">+7 (495) 123-45-67</a>
+            <button class="btn btn-primary" onclick="scrollToForm()">Тест-драйв</button>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-bg">
+            <video autoplay muted loop playsinline>
+                <source src="https://cdn.coverr.co/videos/coverr-black-sports-car-driving-on-a-highway-7497/1080p.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-label">🏁 F90 Competition Edition</span>
+            <h1>M5</h1>
+            <p class="hero-subtitle">625 Л.С. • 4.4L V8 TWIN-TURBO • M XDRIVE</p>
+            <div class="hero-price">от 12 990 000 ₽ <span>/ В наличии</span></div>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="scrollToForm()">Записаться на тест-драйв</button>
+                <button class="btn btn-secondary" onclick="scrollToSection('configurator')">Подобрать комплектацию</button>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value">625</div>
+                    <div class="stat-label">Л.С.</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">3.3</div>
+                    <div class="stat-label">СЕК 0-100</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">305</div>
+                    <div class="stat-label">КМ/Ч MAX</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">750</div>
+                    <div class="stat-label">НМ КРУТ. МОМ.</div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Прокрутите вниз</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Features 3D -->
+    <section id="features" class="features-3d">
+        <div class="section-header">
+            <span class="section-label">⚡ Технологии</span>
+            <h2 class="section-title">Передовые инновации</h2>
+            <p class="section-description">BMW M5 F90 Competition оснащён самыми современными технологиями, обеспечивающими непревзойдённую производительность и комфорт</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3 class="feature-title">M TwinPower Turbo</h3>
+                <p class="feature-description">Два турбокомпрессора обеспечивают моментальный отклик и непрерывную тягу во всём диапазоне оборотов</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <h3 class="feature-title">M xDrive AWD</h3>
+                <p class="feature-description">Интеллектуальный полный привод с динамическим распределением момента и режимом 2WD</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Active M Diff</h3>
+                <p class="feature-description">Активный дифференциал повышенного трения для максимальной точности в поворотах</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💎</div>
+                <h3 class="feature-title">Carbon Roof</h3>
+                <p class="feature-description">Карбоновая крыша снижает центр тяжести и улучшает управляемость</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3 class="feature-title">M Suspension</h3>
+                <p class="feature-description">Адаптивная подвеска с электронной регулировкой жёсткости в реальном времени</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <h3 class="feature-title">M Mode</h3>
+                <p class="feature-description">Три режима настройки: ROAD, SPORT и TRACK для любого стиля вождения</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specs -->
+    <section id="specs" class="specs-section">
+        <div class="section-header">
+            <span class="section-label">📊 Характеристики</span>
+            <h2 class="section-title">Технические данные</h2>
+        </div>
+        <div class="specs-container">
+            <div class="specs-tabs">
+                <button class="tab active">Двигатель</button>
+                <button class="tab">Динамика</button>
+                <button class="tab">Трансмиссия</button>
+            </div>
+            <div class="specs-content">
+                <div class="spec-item">
+                    <div class="spec-name">Тип двигателя</div>
+                    <div class="spec-value">V8 Bi-Turbo</div>
+                    <div class="spec-detail">4.4 литра, 8 цилиндров, технология M TwinPower Turbo с двумя турбонагнетателями</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-name">Максимальная мощность</div>
+                    <div class="spec-value">625 л.с.</div>
+                    <div class="spec-detail">Достигается при 6000 об/мин с поддержанием максимальной отдачи в широком диапазоне</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-name">Крутящий момент</div>
+                    <div class="spec-value">750 Нм</div>
+                    <div class="spec-detail">Доступен от 1800 до 5860 об/мин, обеспечивая невероятную тягу на любых оборотах</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-name">Разгон 0-100 км/ч</div>
+                    <div class="spec-value">3.3 сек</div>
+                    <div class="spec-detail">С системой Launch Control и полным приводом M xDrive для идеального старта</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-name">Максимальная скорость</div>
+                    <div class="spec-value">305 км/ч</div>
+                    <div class="spec-detail">С пакетом M Driver's Package (стандартно ограничена 250 км/ч)</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-name">Трансмиссия</div>
+                    <div class="spec-value">8-Speed M</div>
+                    <div class="spec-detail">M Steptronic с режимом Drivelogic и подрулевыми лепестками переключения</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="gallery-section">
+        <div class="section-header">
+            <span class="section-label">📸 Фотогалерея</span>
+            <h2 class="section-title">Взгляните на совершенство</h2>
+        </div>
+        <div class="gallery-slider">
+            <div class="gallery-track">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=800&q=95" alt="BMW M5 Front">
+                    <div class="gallery-overlay">
+                        <div class="gallery-title">Агрессивный дизайн</div>
+                        <div class="gallery-description">Фронтальная часть M5 Competition</div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=95" alt="BMW M5 Interior">
+                    <div class="gallery-overlay">
+                        <div class="gallery-title">Премиум интерьер</div>
+                        <div class="gallery-description">Кожа Merino и карбон</div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?w=800&q=95" alt="BMW M5 Side">
+                    <div class="gallery-overlay">
+                        <div class="gallery-title">Динамичные линии</div>
+                        <div class="gallery-description">Профиль M5 F90</div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1617531653520-bd466ee81d24?w=800&q=95" alt="BMW M5 Detail">
+                    <div class="gallery-overlay">
+                        <div class="gallery-title">М-детали</div>
+                        <div class="gallery-description">Эксклюзивные элементы Competition</div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1619682817481-e994891cd1f5?w=800&q=95" alt="BMW M5 Rear">
+                    <div class="gallery-overlay">
+                        <div class="gallery-title">Мощный выхлоп</div>
+                        <div class="gallery-description">Четыре выхлопные трубы</div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&q=95" alt="BMW M5 Engine">
+                    <div class="gallery-overlay">
+                        <div class="gallery-title">Сердце зверя</div>
+                        <div class="gallery-description">V8 TwinPower Turbo</div>
+                    </div>
+                </div>
+                <!-- Duplicate for infinite scroll -->
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=800&q=95" alt="BMW M5 Front">
+                    <div class="gallery-overlay">
+                        <div class="gallery-title">Агрессивный дизайн</div>
+                        <div class="gallery-description">Фронтальная часть M5 Competition</div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=95" alt="BMW M5 Interior">
+                    <div class="gallery-overlay">
+                        <div class="gallery-title">Премиум интерьер</div>
+                        <div class="gallery-description">Кожа Merino и карбон</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section id="benefits" class="benefits-section">
+        <div class="section-header">
+            <span class="section-label">✨ Преимущества</span>
+            <h2 class="section-title">Почему именно M5?</h2>
+        </div>
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <div class="benefit-number">01</div>
+                <div class="benefit-content">
+                    <h3>Легендарная производительность</h3>
+                    <p>625 л.с. и 750 Нм крутящего момента делают M5 Competition одним из самых мощных седанов в мире, способным конкурировать с суперкарами</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-number">02</div>
+                <div class="benefit-content">
+                    <h3>Практичность премиум-класса</h3>
+                    <p>Полноценный пятиместный седан с просторным салоном и багажником 530 литров — комфорт для всей семьи без компромиссов</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-number">03</div>
+                <div class="benefit-content">
+                    <h3>Передовые технологии</h3>
+                    <p>Адаптивная подвеска, M xDrive, активные системы стабилизации и безопасности — вся мощь современной автомобильной инженерии</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-number">04</div>
+                <div class="benefit-content">
+                    <h3>Эксклюзивность</h3>
+                    <p>Competition — топовая версия M5 с уникальными элементами дизайна, увеличенной мощностью и специальной настройкой шасси</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Configurator -->
+    <section id="configurator" class="configurator-section">
+        <div class="section-header">
+            <span class="section-label">🎨 Конфигуратор</span>
+            <h2 class="section-title">Создайте свой M5</h2>
+        </div>
+        <div class="configurator-container">
+            <div class="config-preview">
+                <img id="config-image" src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=1200&q=95" alt="BMW M5">
+            </div>
+            <div class="config-options">
+                <div class="config-group">
+                    <h3>Выберите цвет</h3>
+                    <div class="color-options">
+                        <div class="color-option active" style="background: #000000;" onclick="changeColor(this)"></div>
+                        <div class="color-option" style="background: #1a237e;" onclick="changeColor(this)"></div>
+                        <div class="color-option" style="background: #b71c1c;" onclick="changeColor(this)"></div>
+                        <div class="color-option" style="background: #ffffff; border-color: #ccc;" onclick="changeColor(this)"></div>
+                        <div class="color-option" style="background: linear-gradient(135deg, #434343, #000000);" onclick="changeColor(this)"></div>
+                    </div>
+                </div>
+                <div class="config-group">
+                    <h3>Выберите пакет</h3>
+                    <div class="package-options">
+                        <div class="package-option active" onclick="selectPackage(this)">
+                            <h4>Base</h4>
+                            <p>Стандартная комплектация M5 Competition</p>
+                            <div class="price">12 990 000 ₽</div>
+                        </div>
+                        <div class="package-option" onclick="selectPackage(this)">
+                            <h4>M Driver's Package</h4>
+                            <p>Снятие ограничителя до 305 км/ч</p>
+                            <div class="price">+ 350 000 ₽</div>
+                        </div>
+                        <div class="package-option" onclick="selectPackage(this)">
+                            <h4>Carbon Package</h4>
+                            <p>Карбоновые тормоза и аэродинамика</p>
+                            <div class="price">+ 890 000 ₽</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Испытайте силу M5</h2>
+            <p>Запишитесь на тест-драйв прямо сейчас и почувствуйте 625 л.с.</p>
+            <div class="cta-benefits">
+                <div class="cta-benefit">Тест-драйв за 5 минут</div>
+                <div class="cta-benefit">Кредит от 0%</div>
+                <div class="cta-benefit">Trade-in по лучшей цене</div>
+            </div>
+            <button class="btn btn-primary" style="font-size: 18px; padding: 20px 60px;" onclick="scrollToForm()">Записаться на тест-драйв</button>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact" class="form-section">
+        <div class="section-header">
+            <span class="section-label">📞 Контакты</span>
+            <h2 class="section-title">Свяжитесь с нами</h2>
+            <p class="section-description">Оставьте заявку, и наш менеджер свяжется с вами в течение 5 минут</p>
+        </div>
+        <div class="form-container">
+            <form id="contact-form" onsubmit="submitForm(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Ваше имя *</label>
+                        <input type="text" placeholder="Иван Иванов" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон *</label>
+                        <input type="tel" placeholder="+7 (___) ___-__-__" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="example@mail.ru">
+                    </div>
+                    <div class="form-group">
+                        <label>Интересующая комплектация</label>
+                        <select>
+                            <option>M5 Competition Base</option>
+                            <option>M5 Competition + Driver's Package</option>
+                            <option>M5 Competition + Carbon Package</option>
+                            <option>M5 Competition Full Package</option>
+                        </select>
+                    </div>
+                    <div class="form-group full">
+                        <label>Сообщение</label>
+                        <textarea placeholder="Расскажите о ваших пожеланиях..."></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary form-submit">Отправить заявку</button>
+                <div class="form-privacy">
+                    Нажимая кнопку, вы соглашаетесь с <a href="#">политикой конфиденциальности</a>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>BMW M5 F90</h3>
+                <p>Официальный дилер BMW M Performance в Москве. Продажа, обслуживание, тюнинг автомобилей BMW M-серии.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">📷</a>
+                    <a href="#" class="social-link">🎥</a>
+                    <a href="#" class="social-link">📱</a>
+                    <a href="#" class="social-link">💬</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Автомобили</h4>
+                <a href="#">M5 Competition</a>
+                <a href="#">M5 CS</a>
+                <a href="#">M8 Competition</a>
+                <a href="#">X5 M Competition</a>
+            </div>
+            <div class="footer-section">
+                <h4>Услуги</h4>
+                <a href="#">Тест-драйв</a>
+                <a href="#">Трейд-ин</a>
+                <a href="#">Кредит</a>
+                <a href="#">Страхование</a>
+            </div>
+            <div class="footer-section">
+                <h4>Контакты</h4>
+                <a href="tel:+74951234567">+7 (495) 123-45-67</a>
+                <a href="mailto:sales@bmw-m5.ru">sales@bmw-m5.ru</a>
+                <a href="#">Москва, Ленинградский пр-т, 39А</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 BMW M5 F90 Competition. Все права защищены. Официальный дилер BMW M в России.</p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/74951234567" class="whatsapp-float" target="_blank">💬</a>
+
+    <script>
+        // Preloader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('preloader').style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        let mouseX = 0, mouseY = 0;
+        let followerX = 0, followerY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+        });
+
+        function animateFollower() {
+            followerX += (mouseX - followerX) * 0.1;
+            followerY += (mouseY - followerY) * 0.1;
+            follower.style.left = followerX + 'px';
+            follower.style.top = followerY + 'px';
+            requestAnimationFrame(animateFollower);
+        }
+        animateFollower();
+
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+        });
+
+        // Sticky Header
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth Scroll
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            const offset = 100;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+
+        function scrollToForm() {
+            scrollToSection('contact');
+        }
+
+        // Configurator
+        function changeColor(element) {
+            document.querySelectorAll('.color-option').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function selectPackage(element) {
+            document.querySelectorAll('.package-option').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // Form Submit
+        function submitForm(e) {
+            e.preventDefault();
+            alert('✅ Спасибо за вашу заявку!\n\nНаш менеджер свяжется с вами в течение 5 минут для согласования времени тест-драйва.\n\nМы готовим для вас BMW M5 F90 Competition!');
+            e.target.reset();
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .spec-item, .benefit-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(50px)';
+            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(el);
+        });
+
+        // Phone mask
+        document.querySelector('input[type="tel"]').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                let formatted = '+7';
+                if (value.length > 1) formatted += ' (' + value.substring(1, 4);
+                if (value.length >= 4) formatted += ') ' + value.substring(4, 7);
+                if (value.length >= 7) formatted += '-' + value.substring(7, 9);
+                if (value.length >= 9) formatted += '-' + value.substring(9, 11);
+                e.target.value = formatted;
+            }
+        });
+    </script>
+</body>
+</html>
