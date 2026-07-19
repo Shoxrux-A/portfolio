@@ -1,0 +1,2311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FleetOS — TMS и система мониторинга автопарка. Экономия на топливе 18–34%. GPS, ЭДО, ИИ-маршруты для парков 5–300+ машин.">
+  <title>FleetOS — Система управления автопарком и логистикой</title>
+  <link rel="canonical" href="https://fleetos.uz/">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fleetos.uz/">
+  <meta property="og:title" content="FleetOS — Сократите расходы на парк на 18–34%">
+  <meta property="og:description" content="GPS-мониторинг, контроль топлива, ИИ-маршруты и ЭДО для транспортных компаний Узбекистана. 14 дней бесплатно.">
+  <meta property="og:image" content="https://fleetos.uz/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FleetOS — Управление автопарком нового поколения">
+  <meta name="twitter:description" content="Сократите расходы на топливо на 18–34%. GPS, ЭДО, ИИ-маршруты.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%233B82F6'/><text y='.9em' font-size='72'>🚛</text></svg>">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "FleetOS",
+        "url": "https://fleetos.uz",
+        "logo": "https://fleetos.uz/logo.png",
+        "description": "Платформа управления грузовым автопарком: GPS, топливо, маршруты, ЭДО.",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+998-71-234-56-78",
+          "contactType": "sales",
+          "availableLanguage": ["Russian", "Uzbek"]
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "ул. Амира Темура 107",
+          "addressLocality": "Ташкент",
+          "addressCountry": "UZ"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "FleetOS",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web, iOS, Android",
+        "offers": {
+          "@type": "Offer",
+          "price": "89000",
+          "priceCurrency": "UZS",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "89000",
+            "priceCurrency": "UZS",
+            "unitText": "машина/месяц"
+          }
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.8",
+          "reviewCount": "340"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Сколько времени занимает подключение?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Базовое подключение занимает 1–2 рабочих дня. Если нужны физические датчики топлива — ещё 3–5 дней на монтаж."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Есть ли бесплатный пробный период?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Да. Мы предоставляем 14 дней полного доступа ко всем функциям тарифа Профи бесплатно. Карта не нужна."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #080E1A;
+      --navy-2: #0F172A;
+      --navy-3: #1E293B;
+      --navy-4: #2D3E57;
+      --blue: #3B82F6;
+      --blue-light: #60A5FA;
+      --blue-glow: rgba(59,130,246,0.18);
+      --cyan: #06B6D4;
+      --green: #10B981;
+      --amber: #F59E0B;
+      --red: #EF4444;
+      --white: #F8FAFC;
+      --gray: #94A3B8;
+      --gray-2: #64748B;
+      --border: rgba(255,255,255,0.07);
+      --border-2: rgba(59,130,246,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      overflow-x: hidden;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── NOISE TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.6;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--navy-2); }
+    ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 2px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+      padding: 0 48px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(8,14,26,0.82);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: var(--white);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-logo span { color: var(--blue); }
+    .nav-logo-icon {
+      width: 32px; height: 32px;
+      background: var(--blue);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-actions { display: flex; gap: 12px; align-items: center; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      letter-spacing: 0.2px;
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--gray);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { color: var(--white); border-color: var(--blue); }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(59,130,246,0.35);
+    }
+    .btn-primary:hover {
+      background: var(--blue-light);
+      box-shadow: 0 0 32px rgba(59,130,246,0.55);
+      transform: translateY(-1px);
+    }
+
+    .btn-large {
+      padding: 16px 36px;
+      font-size: 16px;
+      border-radius: 10px;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--blue);
+      border: 1.5px solid var(--blue);
+    }
+    .btn-outline:hover {
+      background: var(--blue-glow);
+      box-shadow: 0 0 20px rgba(59,130,246,0.2);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 40%, rgba(59,130,246,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 15% 70%, rgba(6,182,212,0.08) 0%, transparent 60%),
+        linear-gradient(180deg, var(--navy) 0%, #0A1220 100%);
+    }
+
+    /* Grid lines */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 30%, transparent 80%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(59,130,246,0.1);
+      border: 1px solid rgba(59,130,246,0.3);
+      border-radius: 100px;
+      font-size: 13px;
+      color: var(--blue-light);
+      font-weight: 500;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(52px, 7vw, 96px);
+      line-height: 0.95;
+      letter-spacing: 1px;
+      color: var(--white);
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--blue);
+      text-shadow: 0 0 40px rgba(59,130,246,0.4);
+    }
+    .hero h1 .accent-green {
+      color: var(--green);
+      text-shadow: 0 0 40px rgba(16,185,129,0.35);
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: var(--gray);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+      animation: fadeUp 0.6s 0.2s ease both;
+      font-weight: 400;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+      margin-bottom: 64px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+    }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 40px;
+      color: var(--white);
+      letter-spacing: 1px;
+      line-height: 1;
+    }
+    .stat-num em {
+      font-style: normal;
+      color: var(--blue);
+    }
+    .stat-label {
+      font-size: 13px;
+      color: var(--gray-2);
+      margin-top: 4px;
+    }
+
+    /* Dashboard mockup */
+    .hero-visual {
+      position: absolute;
+      right: -40px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 52%;
+      max-width: 720px;
+      z-index: 2;
+      animation: floatIn 0.9s 0.3s ease both;
+    }
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(-44%) translateX(40px); }
+      to { opacity: 1; transform: translateY(-50%) translateX(0); }
+    }
+
+    .dashboard-card {
+      background: rgba(15,23,42,0.85);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      backdrop-filter: blur(20px);
+      box-shadow:
+        0 24px 80px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .dash-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .dash-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .dash-live {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; color: var(--green);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .truck-list { display: flex; flex-direction: column; gap: 10px; }
+    .truck-row {
+      display: grid;
+      grid-template-columns: 48px 1fr 80px 70px 60px;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .truck-row:hover { border-color: var(--border-2); background: rgba(59,130,246,0.05); }
+
+    .truck-icon {
+      width: 38px; height: 38px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .truck-name { font-size: 13px; font-weight: 600; }
+    .truck-route { font-size: 11px; color: var(--gray-2); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+
+    .speed-bar {
+      height: 4px;
+      background: var(--navy-3);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .speed-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 1s;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .status-moving { background: rgba(16,185,129,0.15); color: var(--green); }
+    .status-idle { background: rgba(245,158,11,0.15); color: var(--amber); }
+    .status-parked { background: rgba(100,116,139,0.15); color: var(--gray); }
+
+    .fuel-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--gray); }
+
+    .dash-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .mini-stat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .mini-stat-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      line-height: 1;
+    }
+    .mini-stat-label { font-size: 10px; color: var(--gray-2); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* ── LOGOS ── */
+    .logos-section {
+      padding: 48px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .logos-label {
+      text-align: center;
+      font-size: 12px;
+      color: var(--gray-2);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 32px;
+    }
+    .logos-grid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 56px;
+      flex-wrap: wrap;
+    }
+    .logo-item {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      color: var(--navy-4);
+      letter-spacing: 2px;
+      transition: color 0.2s;
+    }
+    .logo-item:hover { color: var(--gray-2); }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 48px; }
+
+    .section-header {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 64px;
+    }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 14px;
+      background: rgba(59,130,246,0.08);
+      border: 1px solid rgba(59,130,246,0.2);
+      border-radius: 100px;
+      font-size: 12px;
+      color: var(--blue-light);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 5vw, 60px);
+      letter-spacing: 1px;
+      line-height: 1;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    h2 em { font-style: normal; color: var(--blue); }
+
+    .section-desc {
+      color: var(--gray);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    /* ── CALCULATOR ── */
+    .calc-section {
+      background: linear-gradient(135deg, rgba(59,130,246,0.06) 0%, transparent 60%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .calc-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      background: rgba(15,23,42,0.7);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+    }
+
+    .calc-inputs {
+      padding: 48px;
+      border-right: 1px solid var(--border);
+    }
+
+    .calc-result {
+      padding: 48px;
+      background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(16,185,129,0.05) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .calc-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 1px;
+      margin-bottom: 32px;
+      color: var(--white);
+    }
+
+    .input-group {
+      margin-bottom: 24px;
+    }
+    .input-group label {
+      display: block;
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .input-row input[type=range] {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 4px;
+      background: var(--navy-3);
+      border-radius: 2px;
+      outline: none;
+    }
+    .input-row input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      background: var(--blue);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(59,130,246,0.5);
+    }
+    .input-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      min-width: 70px;
+      text-align: right;
+    }
+
+    .result-label {
+      font-size: 13px;
+      color: var(--gray-2);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .result-big {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 56px;
+      color: var(--green);
+      letter-spacing: 2px;
+      line-height: 1;
+      text-shadow: 0 0 30px rgba(16,185,129,0.4);
+      margin-bottom: 4px;
+    }
+    .result-currency { font-size: 28px; }
+    .result-period { font-size: 14px; color: var(--gray); margin-bottom: 24px; }
+
+    .result-breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    .breakdown-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .breakdown-item span:last-child {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    /* ── FEATURES ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      padding: 28px;
+      background: rgba(15,23,42,0.6);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .feature-card:hover {
+      border-color: var(--border-2);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 40px rgba(59,130,246,0.08);
+    }
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-icon {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+    .feature-card p {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.65;
+    }
+
+    .feature-tag {
+      display: inline-flex;
+      margin-top: 16px;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* ── BEFORE/AFTER ── */
+    .compare-section {
+      background: var(--navy-2);
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .compare-col {
+      padding: 36px;
+      border-radius: 16px;
+    }
+    .compare-before {
+      background: rgba(239,68,68,0.05);
+      border: 1px solid rgba(239,68,68,0.2);
+    }
+    .compare-after {
+      background: rgba(16,185,129,0.05);
+      border: 1px solid rgba(16,185,129,0.2);
+    }
+
+    .compare-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .compare-before .compare-label { color: var(--red); }
+    .compare-after .compare-label { color: var(--green); }
+
+    .compare-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .compare-item:last-child { border-bottom: none; }
+    .compare-item-icon { margin-top: 2px; flex-shrink: 0; }
+
+    /* ── PRICING ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .price-card {
+      background: rgba(15,23,42,0.7);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
+      position: relative;
+      transition: all 0.3s;
+    }
+    .price-card:hover { transform: translateY(-4px); }
+
+    .price-card.featured {
+      border-color: var(--blue);
+      background: rgba(59,130,246,0.08);
+      box-shadow: 0 0 60px rgba(59,130,246,0.12);
+    }
+
+    .price-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 4px 18px;
+      background: var(--blue);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .price-plan {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--gray-2);
+      margin-bottom: 8px;
+    }
+    .price-desc { font-size: 14px; color: var(--gray); margin-bottom: 24px; line-height: 1.5; }
+
+    .price-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 56px;
+      letter-spacing: 1px;
+      color: var(--white);
+      line-height: 1;
+    }
+    .price-currency { font-size: 24px; }
+    .price-period { font-size: 14px; color: var(--gray); margin-bottom: 32px; }
+
+    .price-divider {
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 28px;
+    }
+
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+    .price-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--gray);
+    }
+    .price-features li .check { color: var(--green); }
+    .price-features li .cross { color: var(--gray-2); }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-section {
+      background: var(--navy-2);
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .testimonial-card {
+      padding: 28px;
+      background: rgba(8,14,26,0.8);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      transition: all 0.3s;
+    }
+    .testimonial-card:hover { border-color: var(--border-2); }
+
+    .stars {
+      display: flex;
+      gap: 4px;
+      color: var(--amber);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .testimonial-text {
+      font-size: 15px;
+      color: var(--white);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .author-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      background: var(--navy-3);
+      border: 2px solid var(--border);
+    }
+    .author-name { font-size: 14px; font-weight: 600; }
+    .author-pos { font-size: 12px; color: var(--gray-2); }
+
+    /* ── FAQ ── */
+    .faq-section { background: var(--navy); }
+    .faq-container {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+    .faq-item.open { border-color: var(--border-2); }
+
+    .faq-question {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+      transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--blue-light); }
+
+    .faq-toggle {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--navy-3);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.3s;
+      font-size: 18px;
+      color: var(--blue);
+    }
+    .faq-item.open .faq-toggle { transform: rotate(45deg); background: var(--blue); color: #fff; }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+      padding: 0 24px;
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding-bottom: 20px;
+    }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      text-align: center;
+      background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(6,182,212,0.05) 50%, transparent 100%);
+      border-top: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-section h2 { font-size: clamp(36px, 5vw, 64px); }
+    .cta-section .section-desc { max-width: 540px; margin: 0 auto 40px; }
+    .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+    .cta-trust { font-size: 13px; color: var(--gray-2); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy-2);
+      border-top: 1px solid var(--border);
+      padding: 64px 48px 40px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-brand { }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .footer-logo span { color: var(--blue); }
+    .footer-brand p { font-size: 14px; color: var(--gray); line-height: 1.65; max-width: 280px; margin-bottom: 20px; }
+
+    .footer-contacts { display: flex; flex-direction: column; gap: 8px; }
+    .footer-contact-item { font-size: 14px; color: var(--gray); display: flex; align-items: center; gap: 8px; }
+    .footer-contact-item a { color: var(--gray); text-decoration: none; transition: color 0.2s; }
+    .footer-contact-item a:hover { color: var(--blue-light); }
+
+    .footer-col-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gray-2);
+      margin-bottom: 20px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a {
+      font-size: 14px;
+      color: var(--gray);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-bottom p { font-size: 13px; color: var(--gray-2); }
+    .footer-legal { display: flex; gap: 24px; }
+    .footer-legal a { font-size: 13px; color: var(--gray-2); text-decoration: none; transition: color 0.2s; }
+    .footer-legal a:hover { color: var(--gray); }
+
+    /* ── POPUP ── */
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .popup-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .popup {
+      background: var(--navy-2);
+      border: 1px solid var(--border-2);
+      border-radius: 20px;
+      padding: 48px;
+      max-width: 480px;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+    }
+    .popup-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--navy-3);
+      border: none;
+      color: var(--gray);
+      cursor: pointer;
+      font-size: 20px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .popup-close:hover { color: var(--white); background: var(--navy-4); }
+    .popup h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .popup p { font-size: 14px; color: var(--gray); margin-bottom: 24px; line-height: 1.6; }
+    .popup-form { display: flex; flex-direction: column; gap: 12px; }
+    .popup-input {
+      padding: 12px 16px;
+      background: var(--navy-3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      transition: border-color 0.2s;
+      outline: none;
+      width: 100%;
+    }
+    .popup-input:focus { border-color: var(--blue); }
+    .popup-input::placeholder { color: var(--gray-2); }
+
+    /* ── STICKY MOBILE CTA ── */
+    .sticky-cta {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      padding: 12px 16px;
+      background: rgba(8,14,26,0.95);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      z-index: 998;
+    }
+
+    /* ── MODULES PAGE ── */
+    .modules-section { background: var(--navy-2); }
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .module-card {
+      padding: 36px;
+      background: rgba(8,14,26,0.8);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      transition: all 0.3s;
+    }
+    .module-card:hover {
+      border-color: var(--border-2);
+      transform: translateY(-2px);
+    }
+    .module-card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .module-card p { font-size: 14px; color: var(--gray); line-height: 1.7; margin-bottom: 20px; }
+    .module-metrics {
+      display: flex;
+      gap: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .module-metric { }
+    .module-metric-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      color: var(--blue);
+      letter-spacing: 1px;
+    }
+    .module-metric-label { font-size: 11px; color: var(--gray-2); }
+
+    /* ── INTEGRATION LOGOS ── */
+    .integrations-section { background: var(--navy); }
+    .integrations-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .integration-item {
+      background: rgba(15,23,42,0.7);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--gray);
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .integration-item:hover { border-color: var(--border-2); color: var(--white); }
+    .integration-item .int-icon { font-size: 28px; }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── SR-ONLY ── */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+    @media (max-width: 1100px) {
+      .hero-visual { display: none; }
+      .hero-content { max-width: 100%; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      section { padding: 72px 20px; }
+      .hero { padding: 100px 20px 60px; }
+      .hero-stats { gap: 24px; }
+      .calc-container { grid-template-columns: 1fr; }
+      .calc-inputs { border-right: none; border-bottom: 1px solid var(--border); }
+      .compare-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .modules-grid { grid-template-columns: 1fr; }
+      .integrations-grid { grid-template-columns: repeat(2, 1fr); }
+      .logos-grid { gap: 24px; }
+      .sticky-cta { display: block; }
+      .logos-section { padding: 36px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Skip link for keyboard nav -->
+  <a href="#main-content" class="skip-link" style="position:fixed;top:-100px;left:16px;z-index:10000;padding:10px 20px;background:var(--blue);color:#fff;border-radius:8px;font-weight:600;text-decoration:none;transition:top 0.2s;" onfocus="this.style.top='16px'" onblur="this.style.top='-100px'">Перейти к содержанию</a>
+
+  <!-- POPUP -->
+  <div class="popup-overlay" id="popup">
+    <div class="popup">
+      <button class="popup-close" onclick="closePopup()" aria-label="Закрыть окно">✕</button>
+      <h3>Рассчитаем экономию<br>лично для вас</h3>
+      <p>Оставьте контакты — наш специалист свяжется в течение 15 минут и покажет точные цифры для вашего автопарка.</p>
+      <form class="popup-form" novalidate aria-label="Форма заявки на расчёт">
+        <label for="popup-name" class="sr-only">Ваше имя</label>
+        <input class="popup-input" id="popup-name" type="text" placeholder="Ваше имя" required autocomplete="name">
+        <label for="popup-phone" class="sr-only">Телефон</label>
+        <input class="popup-input" id="popup-phone" type="tel" placeholder="+998 __ ___ __ __" required autocomplete="tel" pattern="[+\d\s\-\(\)]{9,}">
+        <label for="popup-trucks" class="sr-only">Количество машин</label>
+        <input class="popup-input" id="popup-trucks" type="number" placeholder="Количество машин в парке" min="1" max="9999">
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:14px;" onclick="submitPopup(event)">
+          Получить расчёт бесплатно →
+        </button>
+        <p style="font-size:11px;color:var(--gray-2);text-align:center;">Нажимая кнопку, вы соглашаетесь с <a href="#" style="color:var(--blue);">политикой конфиденциальности</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- STICKY MOBILE CTA -->
+  <div class="sticky-cta">
+    <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="openPopup()">
+      📅 Записаться на демо
+    </button>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav aria-label="Основная навигация">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">🚛</div>
+      Fleet<span>OS</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Возможности</a></li>
+      <li><a href="#modules">Модули</a></li>
+      <li><a href="#pricing">Цены</a></li>
+      <li><a href="#cases">Кейсы</a></li>
+      <li><a href="#blog">Блог</a></li>
+      <li><a href="#contacts">Контакты</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn btn-ghost" onclick="openPopup()">Войти</button>
+      <button class="btn btn-primary" onclick="openPopup()">Демо бесплатно</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="main-content" aria-label="Главный экран">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Новинка 2025 — ИИ-оптимизация маршрутов
+      </div>
+
+      <h1>
+        Сократите расходы<br>
+        на <em>топливо</em><br>
+        на <span class="accent-green">18–34%</span>
+      </h1>
+
+      <p class="hero-sub">
+        FleetOS — платформа управления автопарком, которая заменяет Excel, бумажные путёвки и ручной учёт. TMS, мониторинг GPS, контроль топлива, ЭДО — всё в одном месте.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-large" onclick="openPopup()">
+          Попробовать бесплатно 14 дней →
+        </button>
+        <button class="btn btn-outline btn-large" onclick="openPopup()">
+          ▶ Смотреть демо (3 мин)
+        </button>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">12<em>К+</em></div>
+          <div class="stat-label">машин под контролем</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">340<em>+</em></div>
+          <div class="stat-label">транспортных компаний</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4,8<em>★</em></div>
+          <div class="stat-label">средняя оценка клиентов</div>
+        </div>
+      </div>
+
+      <!-- Video Demo Preview -->
+      <div style="margin-top:40px;max-width:560px;" class="reveal">
+        <div style="position:relative;background:rgba(15,23,42,0.8);border:1px solid var(--border);border-radius:16px;overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="openPopup()" role="button" tabindex="0" aria-label="Смотреть демо видео" onkeydown="if(event.key==='Enter')openPopup()">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(59,130,246,0.08) 0%,transparent 60%);"></div>
+          <div style="text-align:center;z-index:2;">
+            <div style="width:72px;height:72px;background:rgba(59,130,246,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;box-shadow:0 0 40px rgba(59,130,246,0.5);">▶</div>
+            <div style="font-size:15px;font-weight:600;color:var(--white);">Демо FleetOS — 3 минуты</div>
+            <div style="font-size:13px;color:var(--gray);margin-top:4px;">Реальный интерфейс, живые данные</div>
+          </div>
+          <div style="position:absolute;bottom:12px;right:12px;padding:4px 10px;background:rgba(0,0,0,0.6);border-radius:6px;font-size:11px;color:var(--gray);font-family:'JetBrains Mono',monospace;">3:12</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard visual -->
+    <div class="hero-visual">
+      <div class="dashboard-card">
+        <div class="dash-header">
+          <span class="dash-title">Парк в реальном времени</span>
+          <span class="dash-live"><span style="width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span> LIVE</span>
+        </div>
+        <div class="truck-list">
+          <div class="truck-row">
+            <div class="truck-icon" style="background:rgba(16,185,129,0.12);">🚛</div>
+            <div>
+              <div class="truck-name">GH-7823</div>
+              <div class="truck-route">Ташкент → Самарканд</div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--gray-2);margin-bottom:4px;">78 км/ч</div>
+              <div class="speed-bar"><div class="speed-fill" style="width:65%;background:var(--green);"></div></div>
+            </div>
+            <div class="status-badge status-moving">● В пути</div>
+            <div class="fuel-num">68%</div>
+          </div>
+          <div class="truck-row">
+            <div class="truck-icon" style="background:rgba(245,158,11,0.12);">🚛</div>
+            <div>
+              <div class="truck-name">KM-4451</div>
+              <div class="truck-route">Андижан → Фергана</div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--gray-2);margin-bottom:4px;">0 км/ч</div>
+              <div class="speed-bar"><div class="speed-fill" style="width:0%;background:var(--amber);"></div></div>
+            </div>
+            <div class="status-badge status-idle">● Простой</div>
+            <div class="fuel-num">52%</div>
+          </div>
+          <div class="truck-row">
+            <div class="truck-icon" style="background:rgba(59,130,246,0.12);">🚛</div>
+            <div>
+              <div class="truck-name">RT-1190</div>
+              <div class="truck-route">Нукус → Ургенч</div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--gray-2);margin-bottom:4px;">91 км/ч</div>
+              <div class="speed-bar"><div class="speed-fill" style="width:76%;background:var(--blue);"></div></div>
+            </div>
+            <div class="status-badge status-moving">● В пути</div>
+            <div class="fuel-num">81%</div>
+          </div>
+          <div class="truck-row">
+            <div class="truck-icon" style="background:rgba(100,116,139,0.12);">🚛</div>
+            <div>
+              <div class="truck-name">PQ-3382</div>
+              <div class="truck-route">База — Депо #3</div>
+            </div>
+            <div>
+              <div style="font-size:11px;color:var(--gray-2);margin-bottom:4px;">0 км/ч</div>
+              <div class="speed-bar"><div class="speed-fill" style="width:0%;background:var(--gray-2);"></div></div>
+            </div>
+            <div class="status-badge status-parked">● Стоянка</div>
+            <div class="fuel-num">44%</div>
+          </div>
+        </div>
+        <div class="dash-bottom">
+          <div class="mini-stat">
+            <div class="mini-stat-val" style="color:var(--green);">↓28%</div>
+            <div class="mini-stat-label">Экономия топлива</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-val" style="color:var(--blue);">97.3%</div>
+            <div class="mini-stat-label">Выполнение рейсов</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-val" style="color:var(--amber);">2</div>
+            <div class="mini-stat-label">Тревоги сегодня</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENT LOGOS -->
+  <div class="logos-section">
+    <p class="logos-label">Нам доверяют транспортные компании Узбекистана и СНГ</p>
+    <div class="logos-grid">
+      <div class="logo-item">UZTRANS</div>
+      <div class="logo-item">LOGISTIC PRO</div>
+      <div class="logo-item">SILKWAY GROUP</div>
+      <div class="logo-item">CARGO UZ</div>
+      <div class="logo-item">TRANS ASIA</div>
+      <div class="logo-item">FERGHANA LINES</div>
+    </div>
+  </div>
+
+  <!-- CALCULATOR -->
+  <section class="calc-section" id="calculator">
+    <div class="section-header reveal">
+      <div class="section-tag">💰 Калькулятор экономии</div>
+      <h2>Сколько вы <em>сэкономите</em> с FleetOS?</h2>
+      <p class="section-desc">Введите параметры вашего автопарка и получите реальный расчёт.</p>
+    </div>
+
+    <div class="calc-container reveal">
+      <div class="calc-inputs">
+        <div class="calc-title">⚙ Ваш автопарк</div>
+
+        <div class="input-group">
+          <label>Количество машин</label>
+          <div class="input-row">
+            <input type="range" id="trucks" min="5" max="300" value="30" oninput="calcUpdate()">
+            <span class="input-val" id="trucks-val">30 ТС</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Средний пробег в месяц (км на 1 ТС)</label>
+          <div class="input-row">
+            <input type="range" id="mileage" min="2000" max="20000" step="500" value="8000" oninput="calcUpdate()">
+            <span class="input-val" id="mileage-val">8 000 км</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Расход топлива (л на 100 км)</label>
+          <div class="input-row">
+            <input type="range" id="fuel" min="20" max="50" value="35" oninput="calcUpdate()">
+            <span class="input-val" id="fuel-val">35 л</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Цена топлива (сум за литр)</label>
+          <div class="input-row">
+            <input type="range" id="fuelPrice" min="8000" max="20000" step="500" value="12500" oninput="calcUpdate()">
+            <span class="input-val" id="fuelprice-val">12 500 сум</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Стоимость часа простоя (сум)</label>
+          <div class="input-row">
+            <input type="range" id="idle" min="50000" max="500000" step="10000" value="150000" oninput="calcUpdate()">
+            <span class="input-val" id="idle-val">150 000 сум</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-result">
+        <div class="result-label">💰 Ваша экономия в месяц</div>
+        <div class="result-big"><span class="result-currency" id="result-main">0</span></div>
+        <div class="result-period">сум / месяц</div>
+
+        <div class="result-breakdown">
+          <div class="breakdown-item">
+            <span>Экономия на топливе</span>
+            <span id="fuel-save">0 сум</span>
+          </div>
+          <div class="breakdown-item">
+            <span>Снижение простоев</span>
+            <span id="idle-save">0 сум</span>
+          </div>
+          <div class="breakdown-item">
+            <span>Оптимизация маршрутов</span>
+            <span id="route-save">0 сум</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="openPopup()">
+          Получить точный расчёт →
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="section-header reveal">
+      <div class="section-tag">⚡ Возможности</div>
+      <h2>Всё, что нужно для<br><em>контроля парка</em></h2>
+      <p class="section-desc">Единая платформа вместо 5 разных программ и Excel-таблиц.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(59,130,246,0.12);">🗺️</div>
+        <h3>GPS-мониторинг в реальном времени</h3>
+        <p>Отслеживайте каждую машину на карте онлайн. История маршрутов, геозоны, оповещения о нарушениях. Обновление каждые 30 секунд.</p>
+        <span class="feature-tag" style="background:rgba(59,130,246,0.1);color:var(--blue);">Ключевой модуль</span>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(16,185,129,0.12);">⛽</div>
+        <h3>Контроль топлива и сливов</h3>
+        <p>Датчики уровня топлива + алгоритм выявления несанкционированных сливов. Экономия 18–28% бюджета на ГСМ в первые 2 месяца.</p>
+        <span class="feature-tag" style="background:rgba(16,185,129,0.1);color:var(--green);">Топ по ROI</span>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(245,158,11,0.12);">🔀</div>
+        <h3>ИИ-оптимизация маршрутов</h3>
+        <p>Алгоритм на базе ML строит оптимальный маршрут с учётом загруженности дорог, весовых ограничений, временных окон доставки.</p>
+        <span class="feature-tag" style="background:rgba(245,158,11,0.1);color:var(--amber);">ИИ 2025</span>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(6,182,212,0.12);">📋</div>
+        <h3>Электронный путевой лист + ЭДО</h3>
+        <p>Полностью цифровой документооборот. Путёвки, ТТН, акты — создаём, подписываем, отправляем в налоговую без бумаги.</p>
+        <span class="feature-tag" style="background:rgba(6,182,212,0.1);color:var(--cyan);">Законно ✓</span>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(139,92,246,0.12);">📱</div>
+        <h3>Мобильное приложение водителя</h3>
+        <p>iOS и Android. Задания, навигация, фотофиксация, чек-листы, связь с диспетчером — всё в одном приложении для водителя.</p>
+        <span class="feature-tag" style="background:rgba(139,92,246,0.1);color:#A78BFA;">iOS & Android</span>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:rgba(239,68,68,0.12);">📊</div>
+        <h3>Дашборд руководителя</h3>
+        <p>KPI автопарка в реальном времени. P&L по каждой машине, сравнение водителей, прогноз расходов, отчёты одним кликом.</p>
+        <span class="feature-tag" style="background:rgba(239,68,68,0.1);color:var(--red);">Аналитика</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEFORE / AFTER -->
+  <section class="compare-section">
+    <div class="section-header reveal">
+      <div class="section-tag">🔄 До / После</div>
+      <h2>Как меняется работа<br>после внедрения <em>FleetOS</em></h2>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-col compare-before reveal">
+        <div class="compare-label">❌ Без FleetOS</div>
+        <div class="compare-item">
+          <span class="compare-item-icon">😤</span>
+          <span>Диспетчер вручную обзванивает водителей, чтобы узнать где машина</span>
+        </div>
+        <div class="compare-item">
+          <span class="compare-item-icon">📋</span>
+          <span>Стопки бумажных путёвок, ошибки в отчётах, налоговые риски</span>
+        </div>
+        <div class="compare-item">
+          <span class="compare-item-icon">⛽</span>
+          <span>Водители сливают топливо — никто не замечает. 15–20% ГСМ теряется</span>
+        </div>
+        <div class="compare-item">
+          <span class="compare-item-icon">🗺️</span>
+          <span>Маршруты строятся «на глазок», объезды, лишние километры</span>
+        </div>
+        <div class="compare-item">
+          <span class="compare-item-icon">⏰</span>
+          <span>Клиенты недовольны: не знают, когда приедет груз</span>
+        </div>
+        <div class="compare-item">
+          <span class="compare-item-icon">🔧</span>
+          <span>ТО пропускается — внезапные поломки дорого стоят</span>
+        </div>
+      </div>
+
+      <div class="compare-col compare-after reveal">
+        <div class="compare-label">✅ С FleetOS</div>
+        <div class="compare-item">
+          <span class="compare-item-icon">🗺️</span>
+          <span>Все машины на карте в реальном времени. Статус с телефона за 2 секунды</span>
+        </div>
+        <div class="compare-item">
+          <span class="compare-item-icon">📲</span>
+          <span>Электронные путёвки, автоматическая отчётность, ЭЦП в 1 клик</span>
+        </div>
+        <div class="compare-item">
+          <span class="compare-item-icon">⛽</span>
+          <span>Датчики фиксируют каждый литр. Слив — мгновенное SMS-оповещение</span>
+        </div>
+        <div class="compare-item">
+          <span class="compare-item-icon">🤖</span>
+          <span>ИИ строит маршруты с экономией 12–18% пробега. Автоматически</span>
+        </div>
+        <div class="compare-item">
+          <span class="compare-item-icon">📦</span>
+          <span>Клиент видит трекинг в реальном времени на своём телефоне</span>
+        </div>
+        <div class="compare-item">
+          <span class="compare-item-icon">🔧</span>
+          <span>Умный план ТО. Предупреждение за 500 км до регламентного срока</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULES -->
+  <section class="modules-section" id="modules">
+    <div class="section-header reveal">
+      <div class="section-tag">🧩 Модули</div>
+      <h2>Выбирайте только<br>нужные <em>модули</em></h2>
+      <p class="section-desc">Подключайте постепенно или сразу всё — масштабируется под любой парк.</p>
+    </div>
+
+    <div class="modules-grid">
+      <div class="module-card reveal">
+        <div style="font-size:36px;margin-bottom:12px;">⛽</div>
+        <h3>Топливный контроль</h3>
+        <p>Мониторинг уровня ГСМ, фиксация сливов и заправок, автосверка с топливными картами, отчёт по расходу на рейс. Интеграция с 40+ марками датчиков.</p>
+        <div class="module-metrics">
+          <div class="module-metric">
+            <div class="module-metric-val">28%</div>
+            <div class="module-metric-label">средняя экономия</div>
+          </div>
+          <div class="module-metric">
+            <div class="module-metric-val">2 нед</div>
+            <div class="module-metric-label">срок окупаемости</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card reveal">
+        <div style="font-size:36px;margin-bottom:12px;">🔀</div>
+        <h3>Оптимизация маршрутов</h3>
+        <p>ИИ-планировщик с учётом точек погрузки/разгрузки, временных окон, грузоподъёмности, ограничений по осевой нагрузке. Автоназначение водителей.</p>
+        <div class="module-metrics">
+          <div class="module-metric">
+            <div class="module-metric-val">15%</div>
+            <div class="module-metric-label">снижение пробега</div>
+          </div>
+          <div class="module-metric">
+            <div class="module-metric-val">+23%</div>
+            <div class="module-metric-label">рейсов в день</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card reveal">
+        <div style="font-size:36px;margin-bottom:12px;">📋</div>
+        <h3>ЭДО и путевые листы</h3>
+        <p>Полная замена бумажного документооборота. Создание, подписание ЭЦП и отправка ТТН, путёвок, актов в налоговые органы Узбекистана.</p>
+        <div class="module-metrics">
+          <div class="module-metric">
+            <div class="module-metric-val">0 ₽</div>
+            <div class="module-metric-label">штрафов за документы</div>
+          </div>
+          <div class="module-metric">
+            <div class="module-metric-val">90%</div>
+            <div class="module-metric-label">меньше ручной работы</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-card reveal">
+        <div style="font-size:36px;margin-bottom:12px;">🔧</div>
+        <h3>Управление ТО и ремонтами</h3>
+        <p>Плановый сервис по пробегу и моточасам, заявки на ремонт, история по каждому авто, контроль запасных частей, стоимость владения по машине.</p>
+        <div class="module-metrics">
+          <div class="module-metric">
+            <div class="module-metric-val">35%</div>
+            <div class="module-metric-label">меньше аварийных ремонтов</div>
+          </div>
+          <div class="module-metric">
+            <div class="module-metric-val">3×</div>
+            <div class="module-metric-label">дольше ресурс ТС</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTEGRATIONS -->
+  <section class="integrations-section" id="integrations">
+    <div class="section-header reveal">
+      <div class="section-tag">🔗 Интеграции</div>
+      <h2>Работает с тем,<br>что уже <em>есть</em></h2>
+      <p class="section-desc">FleetOS интегрируется с вашими существующими системами за 1–3 дня.</p>
+    </div>
+
+    <div class="integrations-grid">
+      <div class="integration-item reveal">
+        <div class="int-icon">🗺️</div>
+        Google Maps
+      </div>
+      <div class="integration-item reveal">
+        <div class="int-icon">📊</div>
+        1C Бухгалтерия
+      </div>
+      <div class="integration-item reveal">
+        <div class="int-icon">⛽</div>
+        GPS-Датчики ГЛОНАСС
+      </div>
+      <div class="integration-item reveal">
+        <div class="int-icon">💳</div>
+        Топливные карты
+      </div>
+      <div class="integration-item reveal">
+        <div class="int-icon">📬</div>
+        Telegram-бот
+      </div>
+      <div class="integration-item reveal">
+        <div class="int-icon">🏦</div>
+        Банки Узбекистана
+      </div>
+      <div class="integration-item reveal">
+        <div class="int-icon">📋</div>
+        Soliq.uz / ЭДО
+      </div>
+      <div class="integration-item reveal">
+        <div class="int-icon">📦</div>
+        WMS системы
+      </div>
+      <div class="integration-item reveal">
+        <div class="int-icon">🔌</div>
+        REST API
+      </div>
+      <div class="integration-item reveal">
+        <div class="int-icon">⚙️</div>
+        Webhook
+      </div>
+    </div>
+  </section>
+
+  <!-- CASES / TESTIMONIALS -->
+  <section class="testimonials-section" id="cases">
+    <div class="section-header reveal">
+      <div class="section-tag">⭐ Кейсы клиентов</div>
+      <h2>Реальные результаты<br>реальных <em>компаний</em></h2>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">«Внедрили FleetOS в автопарк из 45 машин. За первые 2 месяца выявили 3 водителей, которые сливали топливо. Экономия составила 24 млн сум только на ГСМ. Окупилось за 3 недели.»</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">🧑‍💼</div>
+          <div>
+            <div class="author-name">Азиз Маматов</div>
+            <div class="author-pos">Директор, TransCargo Uz · 45 ТС</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">«Раньше диспетчер тратил 3 часа каждое утро на составление маршрутов. Сейчас ИИ делает это за 4 минуты, и маршруты на 18% короче. Водители довольны, клиенты получают грузы вовремя.»</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">👩‍💼</div>
+          <div>
+            <div class="author-name">Нилуфар Расулова</div>
+            <div class="author-pos">Логист, Silkway Group · 120 ТС</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">«Попробовал 3 системы мониторинга до FleetOS. Это первая, которая реально работает как обещают. Поддержка отвечает в течение 15 минут. За год ни одного серьёзного сбоя.»</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">🧔</div>
+          <div>
+            <div class="author-name">Бахром Юсупов</div>
+            <div class="author-pos">Владелец, Ferghana Lines · 28 ТС</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Big case stats -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:900px;margin:48px auto 0;text-align:center;" class="reveal">
+      <div style="padding:28px;background:rgba(15,23,42,0.6);border:1px solid var(--border);border-radius:16px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--green);letter-spacing:1px;">24%</div>
+        <div style="font-size:13px;color:var(--gray);margin-top:4px;">средняя экономия на топливе</div>
+      </div>
+      <div style="padding:28px;background:rgba(15,23,42,0.6);border:1px solid var(--border);border-radius:16px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--blue);letter-spacing:1px;">3.4×</div>
+        <div style="font-size:13px;color:var(--gray);margin-top:4px;">рост эффективности диспетчера</div>
+      </div>
+      <div style="padding:28px;background:rgba(15,23,42,0.6);border:1px solid var(--border);border-radius:16px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--amber);letter-spacing:1px;">21 день</div>
+        <div style="font-size:13px;color:var(--gray);margin-top:4px;">средний срок окупаемости</div>
+      </div>
+      <div style="padding:28px;background:rgba(15,23,42,0.6);border:1px solid var(--border);border-radius:16px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--cyan);letter-spacing:1px;">98%</div>
+        <div style="font-size:13px;color:var(--gray);margin-top:4px;">клиентов продлевают подписку</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON TABLE: FleetOS vs Excel vs Cheap GPS -->
+  <section style="background:var(--navy-2);" id="compare-table">
+    <div class="section-header reveal">
+      <div class="section-tag">⚖️ Сравнение</div>
+      <h2>FleetOS vs <em>альтернативы</em></h2>
+      <p class="section-desc">Объективное сравнение с тем, что обычно используют до внедрения системы.</p>
+    </div>
+
+    <div style="max-width:1000px;margin:0 auto;overflow-x:auto;" class="reveal">
+      <table role="table" aria-label="Сравнение FleetOS с альтернативами" style="width:100%;border-collapse:collapse;font-size:14px;">
+        <thead>
+          <tr>
+            <th style="text-align:left;padding:16px 20px;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--gray);font-size:12px;text-transform:uppercase;letter-spacing:1px;border-radius:12px 0 0 0;">Функция</th>
+            <th style="padding:16px 20px;background:rgba(59,130,246,0.12);border:1px solid var(--border-2);color:var(--blue-light);font-size:13px;font-weight:700;text-align:center;">🚀 FleetOS</th>
+            <th style="padding:16px 20px;background:rgba(255,255,255,0.02);border:1px solid var(--border);color:var(--gray);font-size:13px;text-align:center;">📊 Excel + бумага</th>
+            <th style="padding:16px 20px;background:rgba(255,255,255,0.02);border:1px solid var(--border);color:var(--gray);font-size:13px;text-align:center;border-radius:0 12px 0 0;">📦 Дешёвый трекер</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:14px 20px;border:1px solid var(--border);color:var(--gray);">GPS мониторинг реального времени</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--green);">✅ Обновление 30 сек</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--red);">❌ Нет</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--amber);">⚠️ Базовый, 5 мин</td>
+          </tr>
+          <tr style="background:rgba(255,255,255,0.02);">
+            <td style="padding:14px 20px;border:1px solid var(--border);color:var(--gray);">Контроль топлива и выявление сливов</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--green);">✅ Автоматический</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--red);">❌ Нет</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--red);">❌ Нет</td>
+          </tr>
+          <tr>
+            <td style="padding:14px 20px;border:1px solid var(--border);color:var(--gray);">ИИ-оптимизация маршрутов</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--green);">✅ ML-алгоритм</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--red);">❌ Вручную</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--red);">❌ Нет</td>
+          </tr>
+          <tr style="background:rgba(255,255,255,0.02);">
+            <td style="padding:14px 20px;border:1px solid var(--border);color:var(--gray);">Электронные путёвки / ЭДО</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--green);">✅ Интеграция Soliq.uz</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--red);">❌ Бумага, штрафы</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--red);">❌ Нет</td>
+          </tr>
+          <tr>
+            <td style="padding:14px 20px;border:1px solid var(--border);color:var(--gray);">Мобильное приложение водителя</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--green);">✅ iOS + Android</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--red);">❌ Нет</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--amber);">⚠️ Ограниченное</td>
+          </tr>
+          <tr style="background:rgba(255,255,255,0.02);">
+            <td style="padding:14px 20px;border:1px solid var(--border);color:var(--gray);">Аналитика и KPI руководителя</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--green);">✅ Дашборд + отчёты</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--amber);">⚠️ Вручную, долго</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--red);">❌ Нет</td>
+          </tr>
+          <tr>
+            <td style="padding:14px 20px;border:1px solid var(--border);color:var(--gray);">Поддержка</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--green);">✅ 24/7, 15 мин ответ</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--red);">❌ Нет</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--red);">❌ Нет (Китай)</td>
+          </tr>
+          <tr style="background:rgba(59,130,246,0.05);">
+            <td style="padding:14px 20px;border:1px solid var(--border);color:var(--white);font-weight:700;">Средняя экономия</td>
+            <td style="padding:14px 20px;border:1px solid var(--border-2);text-align:center;color:var(--green);font-weight:700;font-family:'JetBrains Mono',monospace;">18–34% расходов</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--gray-2);">—</td>
+            <td style="padding:14px 20px;border:1px solid var(--border);text-align:center;color:var(--gray-2);">~3–5%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  <section id="blog" style="background:var(--navy);">
+    <div class="section-header reveal">
+      <div class="section-tag">📰 Блог</div>
+      <h2>Полезные <em>материалы</em></h2>
+      <p class="section-desc">Инструкции, кейсы и обновления законодательства для транспортных компаний.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1100px;margin:0 auto;" class="reveal">
+      <article style="background:rgba(15,23,42,0.7);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(59,130,246,0.25)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
+        <div style="height:160px;background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(59,130,246,0.1));display:flex;align-items:center;justify-content:center;font-size:48px;">⛽</div>
+        <div style="padding:20px;">
+          <div style="font-size:11px;color:var(--blue-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Экономия топлива</div>
+          <h3 style="font-size:16px;font-weight:700;margin-bottom:8px;line-height:1.4;">7 способов сократить расходы на ГСМ без дополнительных вложений</h3>
+          <p style="font-size:13px;color:var(--gray);line-height:1.6;margin-bottom:16px;">Проверенные методы контроля расхода: от нормирования до выбора режима движения.</p>
+          <a href="#" style="font-size:13px;color:var(--blue);text-decoration:none;font-weight:600;" aria-label="Читать статью о сокращении расходов на ГСМ">Читать статью →</a>
+        </div>
+      </article>
+      <article style="background:rgba(15,23,42,0.7);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(59,130,246,0.25)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
+        <div style="height:160px;background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(59,130,246,0.1));display:flex;align-items:center;justify-content:center;font-size:48px;">📋</div>
+        <div style="padding:20px;">
+          <div style="font-size:11px;color:var(--amber);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Законодательство 2025</div>
+          <h3 style="font-size:16px;font-weight:700;margin-bottom:8px;line-height:1.4;">Электронные путёвые листы: что изменилось в 2025 году для перевозчиков</h3>
+          <p style="font-size:13px;color:var(--gray);line-height:1.6;margin-bottom:16px;">Новые требования Министерства транспорта Узбекистана и сроки перехода на ЭДО.</p>
+          <a href="#" style="font-size:13px;color:var(--blue);text-decoration:none;font-weight:600;" aria-label="Читать статью об электронных путёвых листах">Читать статью →</a>
+        </div>
+      </article>
+      <article style="background:rgba(15,23,42,0.7);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(59,130,246,0.25)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
+        <div style="height:160px;background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(59,130,246,0.1));display:flex;align-items:center;justify-content:center;font-size:48px;">🤖</div>
+        <div style="padding:20px;">
+          <div style="font-size:11px;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">ИИ в логистике</div>
+          <h3 style="font-size:16px;font-weight:700;margin-bottom:8px;line-height:1.4;">Как ИИ-оптимизация маршрутов увеличила оборот парка TransCargo на 23%</h3>
+          <p style="font-size:13px;color:var(--gray);line-height:1.6;margin-bottom:16px;">Кейс: 45 машин, 3 месяца внедрения, реальные цифры до и после.</p>
+          <a href="#" style="font-size:13px;color:var(--blue);text-decoration:none;font-weight:600;" aria-label="Читать кейс TransCargo">Читать кейс →</a>
+        </div>
+      </article>
+    </div>
+    <div style="text-align:center;margin-top:40px;" class="reveal">
+      <a href="#" class="btn btn-outline" aria-label="Все статьи блога">Все статьи →</a>
+    </div>
+  </section>
+  <section id="pricing">
+    <div class="section-header reveal">
+      <div class="section-tag">💎 Тарифы</div>
+      <h2>Прозрачные <em>цены</em><br>без скрытых платежей</h2>
+      <p class="section-desc">Платите только за машины в вашем парке. Без договоров на 2+ года.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <div class="price-plan">Стартер</div>
+        <div class="price-desc">Для небольших автопарков 5–30 машин. Основные функции.</div>
+        <div class="price-num"><span class="price-currency">от </span>89<span style="font-size:20px;">K</span></div>
+        <div class="price-period">сум / машина / месяц</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li><span class="check">✓</span> GPS-мониторинг</li>
+          <li><span class="check">✓</span> Мобильное приложение водителя</li>
+          <li><span class="check">✓</span> Базовые отчёты</li>
+          <li><span class="check">✓</span> Email + SMS уведомления</li>
+          <li><span class="check">✓</span> История 3 месяца</li>
+          <li><span class="cross" style="color:var(--gray-2);">–</span> Контроль топлива</li>
+          <li><span class="cross" style="color:var(--gray-2);">–</span> ИИ-маршруты</li>
+          <li><span class="cross" style="color:var(--gray-2);">–</span> ЭДО / путёвки</li>
+        </ul>
+        <button class="btn btn-outline" style="width:100%;justify-content:center;" onclick="openPopup()">Начать бесплатно</button>
+      </div>
+
+      <div class="price-card featured reveal">
+        <div class="price-badge">Популярный</div>
+        <div class="price-plan">Профи</div>
+        <div class="price-desc">Для средних парков 30–150 ТС. Полный контроль и автоматизация.</div>
+        <div class="price-num"><span class="price-currency">от </span>149<span style="font-size:20px;">K</span></div>
+        <div class="price-period">сум / машина / месяц</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li><span class="check">✓</span> Всё из Стартера</li>
+          <li><span class="check">✓</span> Контроль топлива + сливов</li>
+          <li><span class="check">✓</span> ИИ-оптимизация маршрутов</li>
+          <li><span class="check">✓</span> Электронные путёвки + ЭДО</li>
+          <li><span class="check">✓</span> История 12 месяцев</li>
+          <li><span class="check">✓</span> Дашборд руководителя</li>
+          <li><span class="check">✓</span> Интеграция с 1С</li>
+          <li><span class="check">✓</span> Приоритетная поддержка 24/7</li>
+        </ul>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="openPopup()">Попробовать 14 дней →</button>
+      </div>
+
+      <div class="price-card reveal">
+        <div class="price-plan">Энтерпрайз</div>
+        <div class="price-desc">Для крупных операторов 150+ ТС. Кастомизация и SLA.</div>
+        <div class="price-num" style="font-size:36px;padding-top:4px;">По запросу</div>
+        <div class="price-period">индивидуальный расчёт</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li><span class="check">✓</span> Всё из Профи</li>
+          <li><span class="check">✓</span> Выделенный сервер / On-premise</li>
+          <li><span class="check">✓</span> Белая метка / White-label</li>
+          <li><span class="check">✓</span> Кастомные отчёты и BI</li>
+          <li><span class="check">✓</span> SLA 99.9%</li>
+          <li><span class="check">✓</span> Персональный менеджер</li>
+          <li><span class="check">✓</span> Обучение команды</li>
+          <li><span class="check">✓</span> API + вебхуки без ограничений</li>
+        </ul>
+        <button class="btn btn-ghost" style="width:100%;justify-content:center;" onclick="openPopup()">Связаться с нами</button>
+      </div>
+    </div>
+
+    <p style="text-align:center;font-size:13px;color:var(--gray-2);margin-top:32px;">
+      ✅ 14 дней бесплатного теста &nbsp;·&nbsp; ✅ Без карты &nbsp;·&nbsp; ✅ Отмена в 1 клик &nbsp;·&nbsp; ✅ Цена зафиксирована в договоре
+    </p>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="section-header reveal">
+      <div class="section-tag">❓ Вопросы и ответы</div>
+      <h2>Частые <em>вопросы</em></h2>
+    </div>
+
+    <div class="faq-container">
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          Сколько времени занимает подключение?
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-answer">Базовое подключение занимает 1–2 рабочих дня. Устанавливаем приложение на телефон диспетчера, настраиваем кабинет, добавляем машины. Если нужны физические датчики топлива — ещё 3–5 дней на монтаж нашими партнёрами. Всё это делает наш технический специалист, вам ничего самостоятельно настраивать не нужно.</div>
+      </div>
+
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          Работает ли система без интернета в машине?
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-answer">Да. Трекеры имеют встроенную SIM-карту и накапливают данные локально при потере связи. Как только появляется сигнал — данные автоматически синхронизируются. Для дальних маршрутов рекомендуем трекеры с поддержкой 2G/3G/LTE и ГЛОНАСС.</div>
+      </div>
+
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          Нужно ли покупать оборудование?
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-answer">Зависит от модели. Для базового GPS-мониторинга может хватить телефона водителя с нашим приложением. Для полного контроля топлива нужен физический датчик (от 350 000 сум/шт). Оборудование можно купить или взять в аренду. Мы также совместимы с большинством уже установленных трекеров популярных марок.</div>
+      </div>
+
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          Безопасны ли данные? Есть ли резервные копии?
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-answer">Данные хранятся на серверах в Узбекистане (дата-центр Ташкент) с соответствием требованиям законодательства о локализации данных. Резервные копии создаются каждые 6 часов. Доступ защищён 2FA, все соединения зашифрованы TLS 1.3. Доступно on-premise развёртывание для Enterprise.</div>
+      </div>
+
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          Есть ли бесплатный пробный период?
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-answer">Да. Мы предоставляем 14 дней полного доступа ко всем функциям тарифа «Профи» бесплатно. Карта не нужна. По истечении периода вы сами решаете — продолжить или нет. Никаких автоматических списаний без вашего согласия.</div>
+      </div>
+
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          Что если нас всего 5–10 машин — это не слишком мало?
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-answer">Нет! Тариф «Стартер» разработан специально для небольших парков. Многие наши клиенты начинали с 5–8 машин и выросли до 50+. Система масштабируется без переезда на другую платформу. Стоимость ниже расходов на 1 незамеченный слив топлива в месяц.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-section" id="contacts">
+    <div style="position:relative;z-index:2;" class="reveal">
+      <div class="section-tag" style="justify-content:center;">🚀 Начать сейчас</div>
+      <h2>Готовы <em>сократить</em><br>расходы на парк?</h2>
+      <p class="section-desc">
+        Запишитесь на личную 20-минутную демонстрацию. Мы покажем всё на примере вашего парка и рассчитаем точную экономию.
+      </p>
+      <div class="cta-actions">
+        <button class="btn btn-primary btn-large" onclick="openPopup()">
+          📅 Записаться на демо бесплатно
+        </button>
+        <a href="tel:+998712345678" class="btn btn-outline btn-large">
+          📞 +998 71 234 56 78
+        </a>
+      </div>
+      <p class="cta-trust">Без давления. Без обязательств. Ответ в течение 15 минут в рабочее время.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">Fleet<span>OS</span></div>
+        <p>Платформа управления грузовым автопарком нового поколения. GPS, топливо, маршруты, ЭДО — всё в одном месте.</p>
+        <div class="footer-contacts">
+          <div class="footer-contact-item">📞 <a href="tel:+998712345678">+998 71 234 56 78</a></div>
+          <div class="footer-contact-item">✉️ <a href="mailto:hello@fleetos.uz">hello@fleetos.uz</a></div>
+          <div class="footer-contact-item">📍 Ташкент, ул. Амира Темура 107</div>
+          <div class="footer-contact-item">💬 <a href="#">Telegram: @fleetos_uz</a></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Продукт</div>
+        <ul class="footer-links">
+          <li><a href="#">GPS-мониторинг</a></li>
+          <li><a href="#">Контроль топлива</a></li>
+          <li><a href="#">Оптимизация маршрутов</a></li>
+          <li><a href="#">Электронные путёвки</a></li>
+          <li><a href="#">Приложение водителя</a></li>
+          <li><a href="#">Дашборд руководителя</a></li>
+          <li><a href="#">Интеграции</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Компания</div>
+        <ul class="footer-links">
+          <li><a href="#">О FleetOS</a></li>
+          <li><a href="#">Кейсы клиентов</a></li>
+          <li><a href="#">Блог</a></li>
+          <li><a href="#">Партнёрская программа</a></li>
+          <li><a href="#">Карьера</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Поддержка</div>
+        <ul class="footer-links">
+          <li><a href="#">Справочный центр</a></li>
+          <li><a href="#">Документация API</a></li>
+          <li><a href="#">Статус системы</a></li>
+          <li><a href="#">Записаться на демо</a></li>
+          <li><a href="#">Обучение</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 FleetOS. Все права защищены.</p>
+      <div class="footer-legal">
+        <a href="/sitemap.xml" aria-label="Карта сайта XML">Карта сайта</a>
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Договор-оферта</a>
+        <a href="#">Условия использования</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── POPUP ──
+    let popupShown = false;
+
+    function openPopup() {
+      document.getElementById('popup').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closePopup() {
+      document.getElementById('popup').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('popup').addEventListener('click', function(e) {
+      if (e.target === this) closePopup();
+    });
+
+    // Auto-popup after 25s
+    setTimeout(() => {
+      if (!popupShown) {
+        popupShown = true;
+        openPopup();
+      }
+    }, 25000);
+
+    // Popup on 40% scroll
+    window.addEventListener('scroll', function() {
+      if (!popupShown && window.scrollY > document.body.scrollHeight * 0.4) {
+        popupShown = true;
+        openPopup();
+      }
+    }, { passive: true });
+
+    function submitPopup(e) {
+      e.preventDefault();
+      const btn = e.target;
+      btn.textContent = '✅ Заявка отправлена! Свяжемся в течение 15 мин';
+      btn.disabled = true;
+      btn.style.background = 'var(--green)';
+    }
+
+    // ── CALCULATOR ──
+    function fmt(n) {
+      return n.toLocaleString('ru-RU');
+    }
+
+    function calcUpdate() {
+      const trucks = +document.getElementById('trucks').value;
+      const mileage = +document.getElementById('mileage').value;
+      const fuel = +document.getElementById('fuel').value;
+      const fuelPrice = +document.getElementById('fuelPrice').value;
+      const idle = +document.getElementById('idle').value;
+
+      document.getElementById('trucks-val').textContent = trucks + ' ТС';
+      document.getElementById('mileage-val').textContent = fmt(mileage) + ' км';
+      document.getElementById('fuel-val').textContent = fuel + ' л';
+      document.getElementById('fuelprice-val').textContent = fmt(fuelPrice) + ' сум';
+      document.getElementById('idle-val').textContent = fmt(idle) + ' сум';
+
+      // Total fuel spend per month
+      const totalFuel = trucks * mileage * fuel / 100 * fuelPrice;
+
+      const fuelSave = Math.round(totalFuel * 0.22); // 22% fuel saving
+      const idleSave = Math.round(trucks * 4 * idle); // 4 idle hours saved per truck
+      const routeSave = Math.round(trucks * mileage * 0.14 * fuel / 100 * fuelPrice); // 14% mileage optimization
+
+      const total = fuelSave + idleSave + routeSave;
+
+      document.getElementById('result-main').textContent = fmt(total);
+      document.getElementById('fuel-save').textContent = fmt(fuelSave) + ' сум';
+      document.getElementById('idle-save').textContent = fmt(idleSave) + ' сум';
+      document.getElementById('route-save').textContent = fmt(routeSave) + ' сум';
+    }
+
+    calcUpdate();
+
+    // ── FAQ ──
+    function toggleFaq(el) {
+      const isOpen = el.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) el.classList.add('open');
+    }
+
+    // ── SCROLL REVEAL ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── COUNTER ANIMATION ──
+    function animateCount(el, target, suffix = '') {
+      let start = 0;
+      const duration = 1800;
+      const step = (timestamp) => {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(eased * target).toLocaleString('ru-RU') + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+
+    // Stat counters on hero
+    const statNums = document.querySelectorAll('.stat-num');
+    const statTargets = [12000, 340, 4.8];
+    const statSuffixes = ['К+', '+', '★'];
+    statNums.forEach((el, i) => {
+      setTimeout(() => animateCount(el, statTargets[i], statSuffixes[i]), 600 + i * 200);
+    });
+
+    // ── NAV SCROLL EFFECT ──
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      if (window.scrollY > 60) {
+        nav.style.background = 'rgba(8,14,26,0.96)';
+      } else {
+        nav.style.background = 'rgba(8,14,26,0.82)';
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>
